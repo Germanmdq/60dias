@@ -1273,6 +1273,19 @@
         fg.group.rotation.y = a * 0.18;
       }
 
+      // Keep the flying bee from covering reading content on small screens.
+      if (window.innerWidth <= 760) {
+        const w = window.innerWidth, h = window.innerHeight;
+        const x = (cur.x + 1) * w / 2, y = (1 - cur.y) * h / 2;
+        const radius = h * 0.17 * cur.s;
+        flight.visible = !Array.from(document.querySelectorAll('.text, .cards, .hero__side, .foot .cta, .foot .brand, .foot .cols')).some(el => {
+          const r = el.getBoundingClientRect();
+          return r.bottom > y - radius && r.top < y + radius && r.right > x - radius && r.left < x + radius;
+        });
+      } else {
+        flight.visible = true;
+      }
+
       renderer.render(scene, camera);
     }
 
