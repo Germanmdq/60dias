@@ -2,5 +2,5 @@
   "name": "60 días. Vos, yo y Umbral",
   "description": "Acompañamiento individual de 60 días con sesiones todos los días y Umbral para practicar tu imaginación varias veces por día.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

@@ -1,20 +1,9 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 60 días. Vos, yo y Umbral
 
-# Run and deploy your AI Studio app
+Landing de https://60dias.elclubdelaimaginacion.com (Vite + three.js, desplegada en Vercel).
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/0ff708a1-c5a3-4f3e-948e-14e00e2b323e
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- `npm install` · `npm run dev` · `npm run build`
+- Cupo: cambiar `CUPO` ("abierto" o "completo") al principio de `index.html`.
+- Enlaces de contacto y de la Academia: constantes al principio del script de `index.html`.
+- La abeja 3D vive en `src/bee.js` y se carga después del primer texto (no se carga con ahorro de datos o conexión lenta).
+- No usa ninguna API ni clave.
