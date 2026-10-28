@@ -58,21 +58,6 @@
     .nav > * {
       pointer-events: auto;
     }
-    .logo {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      margin-right: clamp(28px, 5vw, 66px);
-    }
-    .logo svg {
-      width: 38px;
-      height: 38px;
-      transition: transform .6s cubic-bezier(.2,.8,.2,1);
-    }
-    .logo:hover svg {
-      transform: rotate(90deg);
-    }
     .nav__links {
       display: flex;
       gap: clamp(22px, 4.5vw, 58px);
@@ -507,32 +492,12 @@
       font-size: clamp(30px, 3.6vw, 60px);
     }
 
-    /* LOADER */
-    .loader {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      background: var(--lilac);
-      display: grid;
-      place-items: center;
-      transition: opacity .8s ease, visibility .8s;
-    }
-    .loader.done {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .loader svg {
-      width: 46px;
-      height: 46px;
-      animation: spin 1.6s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
     /* MOBILE (@media (max-width: 760px)) */
     @media (max-width: 760px) {
+      .nav { top: 0; left: 0; right: 0; padding: 16px 22px; background: rgba(231,227,251,.96); color: var(--ink) !important; }
+      .nav__cta { padding-right: 0; }
       .nav__links { display: none; }
+      html { scroll-padding-top: 78px; }
       section { height: auto; min-height: 100svh; overflow: hidden; padding: 80px 22px; }
       .hero { min-height: 850px; min-height: max(850px, 100svh); padding-top: 110px; }
       .hero h1 { position: relative; top: auto; font-size: clamp(36px, 8.4vw, 60px); }
@@ -555,7 +520,7 @@
       .foot { display: flex; flex-direction: column; gap: 60px; padding-top: 300px; }
       .foot .cta, .foot .brand, .foot .cols { position: relative; inset: auto; transform: none; }
       .foot .cols { flex-wrap: wrap; gap: 24px; }
-      .badge { bottom: 12px; font-size: 11px; }
+      .badge { position: relative; inset: auto; padding: 18px 22px; background: var(--lilac); font-size: 12px; }
     }
 
     /* PREFERS-REDUCED-MOTION */
@@ -577,25 +542,13 @@
       .flower {
         transform: none !important;
       }
-      .logo svg {
-        transition: none !important;
-      }
-      .loader svg {
-        animation: none !important;
-      }
     }
   </style>
 </head>
-<body>
-
-  <!-- LOADER -->
-  <div class="loader" id="loader">
-
-  </div>
+<body class="loaded">
 
   <!-- FIXED NAV -->
   <nav class="nav">
-    <span aria-hidden="true"></span>
     <div class="nav__links">
       <a href="#about">Cómo funciona</a>
       <a href="#umbral">Umbral</a>
@@ -850,23 +803,11 @@
     updateNavTheme();
 
     /* =====================================================================
-       5b. LOADER TIMING
+       5b. MODEL VISIBILITY
        ===================================================================== */
-    let loaderFinished = false;
-    function finishLoader(modelSuccess = false) {
-      if (modelSuccess) {
-        document.getElementById('bee')?.classList.add('ready');
-      }
-      if (loaderFinished) return;
-      loaderFinished = true;
-      document.getElementById('loader')?.classList.add('done');
-      document.body.classList.add('loaded');
+    function showBee(modelSuccess = false) {
+      if (modelSuccess) document.getElementById('bee')?.classList.add('ready');
     }
-
-    // Fallback: 2500ms max waiting
-    const fallbackTimeout = setTimeout(() => {
-      finishLoader(false);
-    }, 2500);
 
     /* =====================================================================
        5c. THREE.JS SCENE SETUP
@@ -923,7 +864,7 @@
 
     } catch (err) {
       console.warn("WebGL initialization failed:", err);
-      finishLoader(false);
+      showBee(false);
     }
 
     /* =====================================================================
@@ -1156,14 +1097,13 @@
           processWingTexture((wingTex) => {
             buildWings(wingTex, anchor);
             isModelReady = true;
-            clearTimeout(fallbackTimeout);
-            finishLoader(true);
+            showBee(true);
           });
         },
         undefined,
         (err) => {
           console.warn("Error loading BEE_GLB:", err);
-          finishLoader(false);
+          showBee(false);
         }
       );
     }
