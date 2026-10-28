@@ -949,7 +949,7 @@
     function targetAt(p, K) {
       const i = Math.min(K.length - 2, Math.floor(p));
       const f = p - i;
-      const t = ease(clamp((f - 0.12) / 0.76, 0, 1));
+      const t = ease(clamp(f, 0, 1));
       const dive = Math.sin(t * Math.PI) * -0.22;
       const k0 = K[i];
       const k1 = K[i + 1];
@@ -1133,6 +1133,7 @@
        5g. ANIMATION LOOP & MOUSE TRACKING
        ===================================================================== */
     const clock = new THREE.Clock();
+    let wingPhase = 0;
 
     const mouse = {
       targetX: 0,
@@ -1226,25 +1227,12 @@
 
       // Wing beat
       const moving = prefersReducedMotion ? 0 : target.moving;
-      const freq = 2 * Math.PI * (17 + moving * 5);
+      wingPhase += dt * 2 * Math.PI * (17 + moving * 5);
       for (let i = 0; i < flapGroups.length; i++) {
         const fg = flapGroups[i];
-        const a = Math.sin(t * freq + fg.phase);
+        const a = Math.sin(wingPhase + fg.phase);
         fg.group.rotation.x = -0.25 + a * 0.95;
         fg.group.rotation.y = a * 0.18;
-      }
-
-      // Keep the flying bee from covering reading content on small screens.
-      if (window.innerWidth <= 760) {
-        const w = window.innerWidth, h = window.innerHeight;
-        const x = (cur.x + 1) * w / 2, y = (1 - cur.y) * h / 2;
-        const radius = h * 0.17 * cur.s;
-        flight.visible = !Array.from(document.querySelectorAll('.text, .cards, .hero__side, .foot .cta, .foot .brand, .foot .cols')).some(el => {
-          const r = el.getBoundingClientRect();
-          return r.bottom > y - radius && r.top < y + radius && r.right > x - radius && r.left < x + radius;
-        });
-      } else {
-        flight.visible = true;
       }
 
       renderer.render(scene, camera);
