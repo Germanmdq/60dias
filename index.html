@@ -2,6 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <link rel="preload" href="./assets/bee/bee-fast.glb" as="fetch" crossorigin fetchpriority="high">
+  <link rel="preload" href="./assets/bee/wings-fast.jpg" as="image" fetchpriority="high">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>60 días. Vos, yo y Umbral</title>
   <meta name="description" content="Acompañamiento individual de 60 días con sesiones todos los días y Umbral para practicar tu imaginación varias veces por día.">
@@ -130,7 +132,7 @@
       height: 100%;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 1.2s ease;
+      transition: opacity .25s ease;
     }
     #bee.ready {
       opacity: 1;
@@ -710,8 +712,8 @@
     const INSTAGRAM_URL = "#";
     const VIDEO_SRC = "video-academia.mp4";
 
-    const BEE_GLB = "./assets/bee/bee.glb";
-    const WING_TEX = "./assets/bee/wings.png";
+    const BEE_GLB = "./assets/bee/bee-fast.glb";
+    const WING_TEX = "./assets/bee/wings-fast.jpg";
 
     // Bind link elements
     document.querySelectorAll('[data-link="info"]').forEach(el => {
@@ -1076,6 +1078,8 @@
       img.src = WING_TEX;
     }
 
+    const wingsReady = new Promise(resolve => processWingTexture(resolve));
+
     if (renderer) {
       const gltfLoader = new GLTFLoader();
       gltfLoader.load(
@@ -1115,7 +1119,7 @@
             z: (finalBox.max.z - finalBox.min.z) * 0.05
           };
 
-          processWingTexture((wingTex) => {
+          wingsReady.then((wingTex) => {
             buildWings(wingTex, anchor);
             isModelReady = true;
             showBee(true);
