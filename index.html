@@ -523,6 +523,27 @@
       .badge { position: relative; inset: auto; padding: 18px 22px; background: var(--lilac); font-size: 12px; }
     }
 
+    a[data-link="info"].nav__cta,
+    a[data-link="info"].join {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 22px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      font-weight: 600;
+      line-height: 1.3;
+      box-shadow: 0 6px 18px rgba(13,11,26,.12);
+    }
+    a[data-link="info"]:hover { background: var(--violet); }
+    a[data-link="info"].join i { border-color: rgba(255,255,255,.5); }
+    @media (max-width: 760px) {
+      a[data-link="info"].nav__cta { padding: 11px 17px; font-size: 14px; }
+      a[data-link="info"].join { font-size: 16px; max-width: 100%; }
+    }
+
     /* PREFERS-REDUCED-MOTION */
     @media (prefers-reduced-motion: reduce) {
       .reveal {
@@ -554,7 +575,7 @@
       <a href="#umbral">Umbral</a>
       <a href="#academia">La Academia</a>
     </div>
-    <a class="nav__cta" data-link="info" href="#">Pedir información</a>
+    <a class="nav__cta" data-link="info" href="#">Escribime y lo charlamos</a>
   </nav>
 
   <!-- 3D BEE CANVAS -->
@@ -570,7 +591,7 @@
       <img class="flower flower--cosmos" data-speed="-0.25" data-rot="8" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132919_c994332b-7f9d-43b5-933d-1e94faa91dd4.png" alt="">
       <div class="hero__side">
         <p>Acompañamiento individual conmigo, sesiones todos los días y Umbral para practicar tu imaginación varias veces por día.</p>
-        <a class="join" data-link="info" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Pedir información</a>
+        <a class="join" data-link="info" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Escribime y lo charlamos</a>
       </div>
       <p class="hero__note">Lo hago con muy pocas personas porque quiero involucrarme personalmente en cada proceso.</p>
     </section>
@@ -639,7 +660,7 @@
     <section class="foot" id="contact" data-theme="light">
       <div class="cta">
         <h2 class="title reveal">¿Querés hacerlo conmigo?</h2>
-        <a class="join reveal d1" data-link="info" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Pedir información</a>
+        <a class="join reveal d1" data-link="info" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Escribime y lo charlamos</a>
       </div>
       <div class="brand reveal">
         <strong>El Club de la Imaginación</strong>
@@ -649,7 +670,7 @@
         <div>
           <a data-link="instagram" href="#">Instagram</a>
           <a data-link="academia" href="#">La Academia</a>
-          <a data-link="info" href="#">Pedir información</a>
+          <a data-link="info" href="#">Escribime y lo charlamos</a>
         </div>
       </div>
     </section>
@@ -684,13 +705,13 @@
     /* =====================================================================
        0. EDITABLE CONSTANTS
        ===================================================================== */
-    const INFO_URL = "https://wa.me/542236151152?text=quiero%20informacion%20sobre%20Umbral%2060%20dias";
+    const INFO_URL = "https://wa.me/542236151152?text=Hola%20Germ%C3%A1n%2C%20me%20gustar%C3%ADa%20charlar%20sobre%20los%2060%20d%C3%ADas%20con%20vos%20y%20Umbral.";
     const ACADEMIA_URL = "https://academia.elclubdelaimaginacion.com";
     const INSTAGRAM_URL = "#";
     const VIDEO_SRC = "video-academia.mp4";
 
-    const BEE_GLB = "./public/assets/bee/bee.glb";
-    const WING_TEX = "./public/assets/bee/wings.png";
+    const BEE_GLB = "./assets/bee/bee.glb";
+    const WING_TEX = "./assets/bee/wings.png";
 
     // Bind link elements
     document.querySelectorAll('[data-link="info"]').forEach(el => {
