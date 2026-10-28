@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>60 días. Vos, yo y Umbral</title>
+  <meta name="description" content="Acompañamiento individual de 60 días con sesiones todos los días y Umbral para practicar tu imaginación varias veces por día.">
+  <meta property="og:title" content="60 días. Vos, yo y Umbral">
+  <meta property="og:description" content="Acompañamiento individual de 60 días con sesiones todos los días y Umbral para practicar tu imaginación varias veces por día.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #0d0b1a;
+      --muted: #4a4568;
+      --lilac: #e7e3fb;
+      --num: #cfc6f6;
+      --num-dark: rgba(214,203,255,.55);
+      --violet: #5b3bd1;
+      --pad: clamp(18px, 3.2vw, 46px);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--lilac);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* NAV (fixed) */
+    .nav {
+      position: fixed;
+      z-index: 30;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      padding: 18px var(--pad) 0;
+      pointer-events: none;
+    }
+    .nav > * {
+      pointer-events: auto;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      margin-right: clamp(28px, 5vw, 66px);
+    }
+    .logo svg {
+      width: 38px;
+      height: 38px;
+      transition: transform .6s cubic-bezier(.2,.8,.2,1);
+    }
+    .logo:hover svg {
+      transform: rotate(90deg);
+    }
+    .nav__links {
+      display: flex;
+      gap: clamp(22px, 4.5vw, 58px);
+      font-size: 15.5px;
+      font-weight: 400;
+    }
+    .nav__links a {
+      position: relative;
+    }
+    .nav__links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -3px;
+      height: 1.5px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s ease;
+    }
+    .nav__links a:hover::after {
+      transform: scaleX(1);
+    }
+    .nav__cta {
+      margin-left: auto;
+      font-weight: 600;
+      font-size: 16px;
+      padding-right: clamp(0px, 4vw, 70px);
+    }
+    .nav, .badge {
+      transition: color .5s ease;
+    }
+    body.on-dark .nav,
+    body.on-dark .badge {
+      color: #fff;
+    }
+
+    /* BADGE (fixed bottom-right) */
+    .badge {
+      position: fixed;
+      z-index: 30;
+      right: var(--pad);
+      bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #2b2550;
+    }
+    .badge b {
+      font-weight: 600;
+      color: var(--violet);
+    }
+    body.on-dark .badge b {
+      color: #d9ccff;
+    }
+    .badge svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* BEE CANVAS */
+    #bee {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    #bee.ready {
+      opacity: 1;
+    }
+
+    /* SECTIONS */
+    section {
+      position: relative;
+      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .flower {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      will-change: transform;
+    }
+
+    /* HERO */
+    .hero {
+      background: #e4e0fa url("https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261016_130303_301c35dd-e2d1-4b40-a396-2b53f884d787.png") center/cover no-repeat;
+      overflow: visible;
+      z-index: 3;
+    }
+    .hero h1 {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 15.5vh;
+      text-align: center;
+      font-weight: 600;
+      font-size: clamp(42px, 6.25vw, 112px);
+      line-height: 1.04;
+      letter-spacing: -.035em;
+      color: var(--ink);
+      text-shadow: 0 0 40px rgba(255,255,255,.35);
+      will-change: transform;
+      z-index: 2;
+    }
+    .hero h1 .line {
+      display: block;
+      overflow: hidden;
+      padding-bottom: .06em;
+    }
+    .hero h1 .line span {
+      display: inline-block;
+      transform: translateY(110%);
+    }
+    .loaded .hero h1 .line span {
+      animation: rise 1.1s cubic-bezier(.2,.8,.15,1) forwards;
+    }
+    .hero h1 .line:nth-child(2) span {
+      animation-delay: .12s;
+    }
+    @keyframes rise {
+      to { transform: translateY(0); }
+    }
+    .hero__side {
+      position: absolute;
+      right: clamp(24px, 6.5vw, 120px);
+      top: 59vh;
+      width: min(300px, 80vw);
+      z-index: 2;
+      opacity: 0;
+    }
+    .loaded .hero__side {
+      animation: fade 1s .7s ease forwards;
+    }
+    .hero__side p {
+      font-size: clamp(15px, 1.45vw, 20px);
+      line-height: 1.32;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: none; }
+    }
+    .join {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 40px;
+      font-weight: 600;
+      font-size: clamp(15px, 1.4vw, 19px);
+    }
+    .join i {
+      width: 25px;
+      height: 32px;
+      border: 1.8px solid currentColor;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      transition: transform .35s ease, background .35s;
+    }
+    .join i svg {
+      width: 9px;
+      height: 9px;
+    }
+    .join:hover i {
+      transform: translateX(4px);
+    }
+    .hero .flower--cosmos {
+      width: clamp(420px, 64vw, 1100px);
+      left: -14vw;
+      bottom: -24vw;
+      transform-origin: 60% 40%;
+      filter: drop-shadow(0 30px 40px rgba(80,50,160,.18));
+      z-index: 1;
+    }
+    .hero__note {
+      position: absolute;
+      right: clamp(24px, 6.5vw, 120px);
+      bottom: 5vh;
+      width: min(340px, 80vw);
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+      z-index: 2;
+      opacity: 0;
+    }
+    .loaded .hero__note {
+      animation: fade 1s .9s ease forwards;
+    }
+
+    /* SHARED TYPE */
+    .num {
+      font-weight: 600;
+      line-height: .8;
+      letter-spacing: -.06em;
+      font-size: clamp(110px, 15vw, 250px);
+      color: var(--num);
+    }
+    .title {
+      font-weight: 600;
+      font-size: clamp(30px, 3.4vw, 56px);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+    }
+    .copy {
+      margin-top: 22px;
+      font-size: clamp(16px, 1.15vw, 18px);
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 420px;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1.1s cubic-bezier(.2,.8,.15,1);
+    }
+    .in .reveal {
+      opacity: 1;
+      transform: none;
+    }
+    .in .reveal.d1 { transition-delay: .1s; }
+    .in .reveal.d2 { transition-delay: .22s; }
+    .in .reveal.d3 { transition-delay: .34s; }
+
+    /* SECTION 01 */
+    .s1 {
+      background: linear-gradient(180deg, #e4e0fa 0%, #ece9fc 100%);
+      z-index: 2;
+    }
+    .s1 .flower--hang {
+      width: clamp(380px, 46vw, 820px);
+      left: -9vw;
+      top: -14vw;
+      transform-origin: 50% 0%;
+    }
+    .s1 .num {
+      position: absolute;
+      left: 6vw;
+      top: 50vh;
+    }
+    .s1 .text {
+      position: absolute;
+      left: 50vw;
+      top: 41vh;
+      width: min(520px, 44vw);
+    }
+
+    /* SECTION 02 (dark) */
+    .s2 {
+      background: #3a1f8c url("https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132814_c3d2b090-c27d-49d1-8107-66d0cfa216c2.png") center/cover no-repeat;
+      color: #fff;
+      z-index: 3;
+    }
+    .s2::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(25,10,70,.45) 0%, rgba(25,10,70,0) 55%);
+    }
+    .s2 .num {
+      color: var(--num-dark);
+      position: relative;
+    }
+    .s2 .text {
+      position: absolute;
+      left: 6vw;
+      top: 22vh;
+      width: min(500px, 46vw);
+    }
+    .s2 .title {
+      margin-top: 22px;
+    }
+    .s2 .copy {
+      color: rgba(240,234,255,.82);
+    }
+    .s2 .flower--iris {
+      width: clamp(380px, 46vw, 820px);
+      right: -8vw;
+      bottom: -20vw;
+      transform-origin: 30% 30%;
+      filter: drop-shadow(0 40px 60px rgba(20,0,60,.45));
+      z-index: 2;
+    }
+
+    /* SECTION 03 */
+    .s3 {
+      background: linear-gradient(180deg, #ece9fc 0%, #e7e3fb 100%);
+      z-index: 1;
+    }
+    .s3 .flower--passion {
+      width: clamp(360px, 42vw, 760px);
+      left: -10vw;
+      top: 6vh;
+      transform-origin: 40% 50%;
+    }
+    .s3 .text {
+      position: absolute;
+      left: 54vw;
+      top: 26vh;
+      width: min(500px, 40vw);
+    }
+    .s3 .title {
+      margin-top: 24px;
+    }
+
+    /* SECTION 04 */
+    .s4 {
+      background: linear-gradient(180deg, #e7e3fb 0%, #ece9fc 100%);
+      z-index: 2;
+    }
+    .s4 .text {
+      position: absolute;
+      left: 6vw;
+      top: 14vh;
+      width: min(520px, 38vw);
+    }
+    .s4 .copy {
+      max-width: none;
+    }
+    .s4 .cards {
+      position: absolute;
+      left: 48vw;
+      right: var(--pad);
+      top: 14vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(91,59,209,.15);
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: clamp(13px, 1vw, 15px);
+      line-height: 1.4;
+      color: var(--ink);
+    }
+    .card b {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--violet);
+      margin-bottom: 6px;
+      letter-spacing: .02em;
+    }
+
+    /* SECTION 05 */
+    .s5 {
+      background: linear-gradient(180deg, #ece9fc 0%, #e7e3fb 100%);
+      z-index: 1;
+    }
+    .s5 .text {
+      position: absolute;
+      left: 6vw;
+      top: 24vh;
+      width: min(500px, 42vw);
+    }
+    .s5 .phone {
+      position: absolute;
+      right: 10vw;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(24vw, 300px);
+      aspect-ratio: 9/19;
+      border-radius: 36px;
+      border: 8px solid #17102f;
+      overflow: hidden;
+      background: #0d0b1a;
+      box-shadow: 0 30px 60px rgba(40,20,100,.25);
+    }
+    .s5 .phone video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* FOOTER */
+    .foot {
+      background: #e7e3fb;
+      height: 100vh;
+      z-index: 1;
+    }
+    .foot .brand {
+      position: absolute;
+      left: var(--pad);
+      bottom: 80px;
+    }
+    .foot .brand strong {
+      display: block;
+      font-size: clamp(30px, 3vw, 46px);
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+    .foot .brand span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .foot .cols {
+      position: absolute;
+      right: calc(var(--pad) + 120px);
+      bottom: 80px;
+      display: flex;
+      gap: 64px;
+      font-size: 14.5px;
+      font-weight: 500;
+    }
+    .foot .cols a {
+      display: block;
+      line-height: 1.9;
+    }
+    .foot .cols a:hover {
+      color: var(--violet);
+    }
+    .foot .cta {
+      position: absolute;
+      left: 50%;
+      top: 18vh;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    .foot .cta .title {
+      font-size: clamp(30px, 3.6vw, 60px);
+    }
+
+    /* LOADER */
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: var(--lilac);
+      display: grid;
+      place-items: center;
+      transition: opacity .8s ease, visibility .8s;
+    }
+    .loader.done {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader svg {
+      width: 46px;
+      height: 46px;
+      animation: spin 1.6s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* MOBILE (@media (max-width: 760px)) */
+    @media (max-width: 760px) {
+      .nav__links { display: none; }
+      section { height: auto; min-height: 100svh; overflow: hidden; padding: 80px 22px; }
+      .hero { min-height: 850px; min-height: max(850px, 100svh); padding-top: 110px; }
+      .hero h1 { position: relative; top: auto; font-size: clamp(36px, 8.4vw, 60px); }
+      .hero__side { position: relative; inset: auto; width: auto; margin: 330px 0 40px; }
+      .hero__side p { max-width: 34ch; font-size: 18px; line-height: 1.5; }
+      .hero__note { display: none; }
+      .hero .flower--cosmos { width: 80vw; left: -42vw; bottom: -30vw; opacity: .6; }
+      .s1 .text, .s2 .text, .s3 .text, .s4 .text, .s5 .text {
+        position: relative; inset: auto; width: 100%; z-index: 3;
+      }
+      .s1, .s2, .s3 { padding-top: 320px; padding-bottom: 90px; }
+      .s1 .num { position: relative; inset: auto; margin-bottom: 28px; }
+      .num { font-size: 100px; }
+      .title { font-size: clamp(30px, 7.8vw, 42px); text-wrap: balance; }
+      .copy { font-size: 17px; line-height: 1.65; max-width: none; }
+      .s1 .flower, .s2 .flower, .s3 .flower { width: 70vw; opacity: .35; z-index: 0; }
+      .s4 .cards { position: relative; inset: auto; margin-top: 32px; grid-template-columns: 1fr; gap: 12px; }
+      .card { padding: 18px; font-size: 16px; border-radius: 14px; }
+      .s5 .phone { position: relative; inset: auto; transform: none; margin: 40px auto 0; width: min(65vw, 280px); }
+      .foot { display: flex; flex-direction: column; gap: 60px; padding-top: 300px; }
+      .foot .cta, .foot .brand, .foot .cols { position: relative; inset: auto; transform: none; }
+      .foot .cols { flex-wrap: wrap; gap: 24px; }
+      .badge { bottom: 12px; font-size: 11px; }
+    }
+
+    /* PREFERS-REDUCED-MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .hero h1 .line span {
+        transform: none !important;
+        animation: none !important;
+      }
+      .hero__side, .hero__note {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+      .flower {
+        transform: none !important;
+      }
+      .logo svg {
+        transition: none !important;
+      }
+      .loader svg {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+
+  </div>
+
+  <!-- FIXED NAV -->
+  <nav class="nav">
+    <span aria-hidden="true"></span>
+    <div class="nav__links">
+      <a href="#about">Cómo funciona</a>
+      <a href="#umbral">Umbral</a>
+      <a href="#academia">La Academia</a>
+    </div>
+    <a class="nav__cta" data-link="info" href="#">Pedir información</a>
+  </nav>
+
+  <!-- 3D BEE CANVAS -->
+  <canvas id="bee"></canvas>
+
+  <!-- MAIN SCROLL STORY -->
+  <main>
+    <section class="hero" id="top" data-theme="light">
+      <h1 data-speed="0.55">
+        <span class="line"><span>60 días.</span></span>
+        <span class="line"><span>Vos, yo y Umbral.</span></span>
+      </h1>
+      <img class="flower flower--cosmos" data-speed="-0.25" data-rot="8" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132919_c994332b-7f9d-43b5-933d-1e94faa91dd4.png" alt="">
+      <div class="hero__side">
+        <p>Acompañamiento individual conmigo, sesiones todos los días y Umbral para practicar tu imaginación varias veces por día.</p>
+        <a class="join" data-link="info" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Pedir información</a>
+      </div>
+      <p class="hero__note">Lo hago con muy pocas personas porque quiero involucrarme personalmente en cada proceso.</p>
+    </section>
+
+    <section class="s1" id="about" data-theme="light">
+      <img class="flower flower--hang" data-speed="0.35" data-rot="-6" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132924_764b726d-d37a-44cc-8eba-662d823d9a4c.png" alt="">
+      <div class="num reveal">01</div>
+      <div class="text">
+        <h2 class="title reveal d1">Primero, un objetivo.<br>Después, todos<br>los días.</h2>
+        <p class="copy reveal d2">Empezamos con una reunión inicial para elegir un solo objetivo concreto. Desde ahí nos juntamos todos los días, el tiempo que sea necesario, y voy guiándote paso a paso ante cada situación, duda y reacción. Lo trabajamos juntos, con ejercicios y prácticas personalizados.</p>
+      </div>
+    </section>
+
+    <section class="s2" id="entre" data-theme="dark">
+      <div class="text">
+        <div class="num reveal">02</div>
+        <h2 class="title reveal d1">Entre una sesión<br>y otra, sigo ahí.</h2>
+        <p class="copy reveal d2">Durante el día te envío mensajes, audios, ejercicios y prácticas pensadas para vos. Podés escribirme en el horario que puedas y te voy a contestar. Si aparece un miedo, una duda o sentís que perdiste lo trabajado, lo abordamos sin esperar a la próxima sesión.</p>
+      </div>
+      <img class="flower flower--iris" data-speed="-0.3" data-rot="10" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132926_a7892ae5-8052-4e4b-96a8-ccbdcaaaa5ad.png" alt="">
+    </section>
+
+    <section class="s3" id="umbral" data-theme="light">
+      <img class="flower flower--passion" data-speed="-0.2" data-rot="-10" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132921_d71538ea-5066-4372-963a-2f2d6468374f.png" alt="">
+      <div class="text">
+        <div class="num reveal">03</div>
+        <h2 class="title reveal d1">Umbral: tu práctica,<br>varias veces por día.</h2>
+        <p class="copy reveal d2">Umbral es la aplicación que te acompaña durante los 60 días. Preparamos juntos tu acto imaginario, una escena o una conversación breve que implica que tu deseo ya está cumplido, y la usás para detenerte unos minutos, volver a esa experiencia interior y vivirla de nuevo durante el día. Yo guío el proceso; la aplicación acompaña la continuidad de la práctica.</p>
+      </div>
+    </section>
+
+    <section class="s4" id="trabajamos" data-theme="light">
+      <div class="text">
+        <div class="num reveal">04</div>
+        <h2 class="title reveal d1">Qué trabajamos<br>durante los 60 días</h2>
+        <p class="copy reveal d2">Basado en la Ley de Asunción y en las enseñanzas de Neville Goddard, el trabajo se centra en lo que imaginás, tu conversación interna, lo que asumís como verdadero y cómo permanecés en el estado que elegís vivir.</p>
+      </div>
+      <div class="cards">
+        <div class="card reveal"><b>01</b>Precisar lo que querés vivir.</div>
+        <div class="card reveal d1"><b>02</b>Reconocer tu conversación interna habitual y tus asunciones.</div>
+        <div class="card reveal d1"><b>03</b>Elaborar el estado correspondiente al deseo cumplido.</div>
+        <div class="card reveal d2"><b>04</b>Preparar tu acto imaginario y tu conversación desde ese cumplimiento.</div>
+        <div class="card reveal d2"><b>05</b>Incorporar la práctica de imaginación a tu vida cotidiana.</div>
+        <div class="card reveal d3"><b>06</b>Reconocer las reacciones y volver al estado elegido.</div>
+        <div class="card reveal d3"><b>07</b>Darle continuidad al trabajo durante los 60 días.</div>
+      </div>
+    </section>
+
+    <section class="s5" id="academia" data-theme="light">
+      <div class="text">
+        <div class="num reveal">05</div>
+        <h2 class="title reveal d1">Y además, la Academia<br>de la Imaginación</h2>
+        <p class="copy reveal d2">Es otra cosa: una plataforma para estudiar las enseñanzas de Neville a tu ritmo, con cursos y lecciones, desde el celular o la computadora. Los 60 días son individuales y conmigo; la Academia es para estudiar por tu cuenta.</p>
+        <a class="join reveal d3" data-link="academia" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Conocer la Academia</a>
+      </div>
+      <div class="phone reveal d2">
+        <video autoplay muted loop playsinline controls preload="auto" poster="video-poster.jpg">
+          <source src="video-academia.mp4" type="video/mp4">
+          <source src="/video-academia.mp4" type="video/mp4">
+          <source src="/assets/aistudio/video_academia_4a0de4bc.mp4" type="video/mp4">
+          <source src="public/assets/aistudio/video_academia_4a0de4bc.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
+
+    <section class="foot" id="contact" data-theme="light">
+      <div class="cta">
+        <h2 class="title reveal">¿Querés hacerlo conmigo?</h2>
+        <a class="join reveal d1" data-link="info" href="#"><i><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 1l4 4-4 4"/></svg></i>Pedir información</a>
+      </div>
+      <div class="brand reveal">
+        <strong>El Club de la Imaginación</strong>
+        <span>Acompañamiento individual de 60 días</span>
+      </div>
+      <div class="cols reveal d1">
+        <div>
+          <a data-link="instagram" href="#">Instagram</a>
+          <a data-link="academia" href="#">La Academia</a>
+          <a data-link="info" href="#">Pedir información</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FIXED BOTTOM-RIGHT BADGE -->
+  <div class="badge">
+    <svg viewBox="0 0 20 20" fill="currentColor">
+      <circle cx="6" cy="6" r="4.2"/>
+      <circle cx="14" cy="6" r="4.2" opacity="0.75"/>
+      <circle cx="6" cy="14" r="4.2" opacity="0.75"/>
+      <circle cx="14" cy="14" r="4.2"/>
+    </svg>
+    Por <b>Germán</b>
+  </div>
+
+  <!-- THREE.JS IMPORT MAP -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+    /* =====================================================================
+       0. EDITABLE CONSTANTS
+       ===================================================================== */
+    const INFO_URL = "https://wa.me/542236151152?text=quiero%20informacion%20sobre%20Umbral%2060%20dias";
+    const ACADEMIA_URL = "https://academia.elclubdelaimaginacion.com";
+    const INSTAGRAM_URL = "#";
+    const VIDEO_SRC = "video-academia.mp4";
+
+    const BEE_GLB = "./public/assets/bee/bee.glb";
+    const WING_TEX = "./public/assets/bee/wings.png";
+
+    // Bind link elements
+    document.querySelectorAll('[data-link="info"]').forEach(el => {
+      el.setAttribute('href', INFO_URL);
+      el.setAttribute('target', '_blank');
+      el.setAttribute('rel', 'noopener noreferrer');
+    });
+    document.querySelectorAll('[data-link="academia"]').forEach(el => {
+      el.setAttribute('href', ACADEMIA_URL);
+      el.setAttribute('target', '_blank');
+      el.setAttribute('rel', 'noopener');
+    });
+    document.querySelectorAll('[data-link="instagram"]').forEach(el => el.setAttribute('href', INSTAGRAM_URL));
+
+    // Bind video source and ensure playback
+    const videoEl = document.querySelector('.s5 .phone video');
+    if (videoEl) {
+      videoEl.muted = true;
+      videoEl.defaultMuted = true;
+      videoEl.playsInline = true;
+      videoEl.loop = true;
+
+      const tryPlay = () => {
+        const p = videoEl.play();
+        if (p !== undefined) {
+          p.catch(() => {
+            // Autoplay may be restricted until user touches/scrolls
+          });
+        }
+      };
+
+      videoEl.addEventListener('loadedmetadata', tryPlay);
+      videoEl.addEventListener('canplay', tryPlay);
+      tryPlay();
+
+      // Trigger play on first user interaction or scroll
+      ['click', 'touchstart', 'scroll', 'pointerdown'].forEach(evt => {
+        window.addEventListener(evt, tryPlay, { once: true, passive: true });
+      });
+
+      // Also trigger play when Section 05 is in viewport
+      const s5Section = document.getElementById('academia');
+      if (s5Section) {
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              tryPlay();
+            }
+          });
+        }, { threshold: 0.1 });
+        videoObserver.observe(s5Section);
+      }
+    }
+
+    /* =====================================================================
+       5a. DOM SCROLL EFFECTS & LOADER
+       ===================================================================== */
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // IntersectionObserver for reveal animations
+    const sections = Array.from(document.querySelectorAll('main > section'));
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(sec => revealObserver.observe(sec));
+
+    // Parallax on data-speed & rot
+    const speedElements = Array.from(document.querySelectorAll('[data-speed]'));
+    function updateParallax() {
+      if (prefersReducedMotion || window.innerWidth <= 760) return;
+      const h = window.innerHeight;
+      speedElements.forEach(el => {
+        const sec = el.closest('section');
+        if (!sec) return;
+        const rect = sec.getBoundingClientRect();
+        const p = -rect.top / h;
+        const speed = parseFloat(el.getAttribute('data-speed') || '0');
+        const rot = parseFloat(el.getAttribute('data-rot') || '0');
+        el.style.transform = `translate3d(0, ${p * speed * h}px, 0) rotate(${p * rot}deg)`;
+      });
+    }
+
+    // Nav theme detection
+    function updateNavTheme() {
+      const yCheck = window.innerHeight * 0.06;
+      let isDark = false;
+      for (let i = 0; i < sections.length; i++) {
+        const r = sections[i].getBoundingClientRect();
+        if (r.top <= yCheck && r.bottom > yCheck) {
+          if (sections[i].getAttribute('data-theme') === 'dark') {
+            isDark = true;
+          }
+          break;
+        }
+      }
+      document.body.classList.toggle('on-dark', isDark);
+    }
+
+    window.addEventListener('scroll', () => {
+      updateParallax();
+      updateNavTheme();
+    }, { passive: true });
+
+    updateParallax();
+    updateNavTheme();
+
+    /* =====================================================================
+       5b. LOADER TIMING
+       ===================================================================== */
+    let loaderFinished = false;
+    function finishLoader(modelSuccess = false) {
+      if (modelSuccess) {
+        document.getElementById('bee')?.classList.add('ready');
+      }
+      if (loaderFinished) return;
+      loaderFinished = true;
+      document.getElementById('loader')?.classList.add('done');
+      document.body.classList.add('loaded');
+    }
+
+    // Fallback: 2500ms max waiting
+    const fallbackTimeout = setTimeout(() => {
+      finishLoader(false);
+    }, 2500);
+
+    /* =====================================================================
+       5c. THREE.JS SCENE SETUP
+       ===================================================================== */
+    const canvas = document.getElementById('bee');
+    let renderer, scene, camera, flight, beeRoot, holder;
+    let flapGroups = [];
+    let isModelReady = false;
+
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+
+      scene = new THREE.Scene();
+
+      // Studio environment
+      const pmremGenerator = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+      pmremGenerator.dispose();
+
+      camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 10);
+
+      // Lights
+      const hemiLight = new THREE.HemisphereLight(0xf2eeff, 0x7a62c9, 1.3);
+      scene.add(hemiLight);
+
+      const dirLight1 = new THREE.DirectionalLight(0xfff1d6, 2.6);
+      dirLight1.position.set(3, 5, 6);
+      scene.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0xc8b8ff, 2.2);
+      dirLight2.position.set(-5, 2, -4);
+      scene.add(dirLight2);
+
+      // Hierarchy: scene > flight > beeRoot > holder + wing groups
+      flight = new THREE.Group();
+      scene.add(flight);
+
+      beeRoot = new THREE.Group();
+      flight.add(beeRoot);
+
+      holder = new THREE.Group();
+      beeRoot.add(holder);
+
+    } catch (err) {
+      console.warn("WebGL initialization failed:", err);
+      finishLoader(false);
+    }
+
+    /* =====================================================================
+       5f. KEYFRAMES & SCROLL-DRIVEN PATH
+       ===================================================================== */
+    const KEYFRAMES_DESKTOP = [
+      { x: -0.03, y: -0.12, s: 1.00, yaw: 150, pitch: 6,  roll: -4 }, // hero
+      { x: -0.30, y: -0.04, s: 1.00, yaw: 125, pitch: 10, roll:  6 }, // 01
+      { x:  0.22, y: -0.30, s: 1.00, yaw:  40, pitch: -6, roll: -8 }, // 02
+      { x: -0.22, y:  0.02, s: 0.96, yaw: 160, pitch:  8, roll:  4 }, // 03
+      { x: -0.30, y: -0.42, s: 0.85, yaw:  60, pitch:  4, roll: -3 }, // 04
+      { x: -0.30, y: -0.30, s: 0.90, yaw: 140, pitch:  6, roll:  4 }, // 05
+      { x:  0.02, y: -0.08, s: 0.92, yaw: 105, pitch:  4, roll:  0 }  // footer
+    ];
+
+    const KEYFRAMES_MOBILE = [
+      { x:  0.05, y: -0.02, s: 0.75, yaw: 150, pitch:  6, roll: -4 },
+      { x:  0.10, y:  0.12, s: 0.80, yaw: 125, pitch: 10, roll:  6 },
+      { x:  0.15, y: -0.20, s: 0.75, yaw:  40, pitch: -6, roll: -8 },
+      { x:  0.25, y:  0.20, s: 0.72, yaw: 160, pitch:  8, roll:  4 },
+      { x:  0.28, y:  0.30, s: 0.60, yaw:  60, pitch:  4, roll: -3 },
+      { x: -0.25, y:  0.25, s: 0.60, yaw: 140, pitch:  6, roll:  4 },
+      { x:  0.00, y:  0.10, s: 0.70, yaw: 105, pitch:  4, roll:  0 }
+    ];
+
+    function ease(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function lerpAngle(a, b, t) {
+      const d = ((b - a + 540) % 360) - 180;
+      return a + d * t;
+    }
+
+    function lerp(a, b, w) {
+      return a + (b - a) * w;
+    }
+
+    function clamp(v, min, max) {
+      return Math.min(max, Math.max(min, v));
+    }
+
+    function getScrollProgress(K) {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const n = sections.length;
+      if (n <= 1) return 0;
+
+      for (let i = 0; i < n - 1; i++) {
+        const topI = sections[i].offsetTop;
+        const topNext = sections[i + 1].offsetTop;
+        if (scrollY >= topI && scrollY < topNext) {
+          const denom = topNext - topI;
+          const frac = denom > 0 ? (scrollY - topI) / denom : 0;
+          const p = i + frac;
+          return clamp(isFinite(p) ? p : 0, 0, K.length - 1);
+        }
+      }
+      return K.length - 1;
+    }
+
+    function targetAt(p, K) {
+      const i = Math.min(K.length - 2, Math.floor(p));
+      const f = p - i;
+      const t = ease(clamp((f - 0.12) / 0.76, 0, 1));
+      const dive = Math.sin(t * Math.PI) * -0.22;
+      const k0 = K[i];
+      const k1 = K[i + 1];
+
+      return {
+        x: lerp(k0.x, k1.x, t),
+        y: lerp(k0.y, k1.y, t) + dive,
+        s: lerp(k0.s, k1.s, t) * (1 + Math.sin(t * Math.PI) * 0.12),
+        yaw: lerpAngle(k0.yaw, k1.yaw, t),
+        pitch: lerp(k0.pitch, k1.pitch, t),
+        roll: lerp(k0.roll, k1.roll, t),
+        moving: Math.sin(t * Math.PI)
+      };
+    }
+
+    /* =====================================================================
+       5d & 5e. MODEL LOAD & PROCEDURAL WINGS
+       ===================================================================== */
+    function buildWings(wingTexture, anchor) {
+      function createWingGeometry(span) {
+        const geom = new THREE.PlaneGeometry(span, span * 9 / 16);
+        geom.translate(span / 2 - span * 0.03, 0, 0); // hinge at root
+        geom.rotateX(-Math.PI / 2);                  // flat
+        geom.rotateY(-Math.PI / 2);                  // span points along +Z
+        return geom;
+      }
+
+      const wingsDef = [
+        { span: 0.72, sweep: -0.42, phase: 0, lift: 0.02 },     // forewing
+        { span: 0.52, sweep: -0.95, phase: -0.5, lift: -0.01 }  // hindwing
+      ];
+
+      const ghostLayers = [
+        { phaseOffset: 0, opacity: 0.95 },
+        { phaseOffset: 0.55, opacity: 0.28 },
+        { phaseOffset: -0.55, opacity: 0.28 }
+      ];
+
+      function buildWingSide(isLeft) {
+        const sideGroup = new THREE.Group();
+        // Right side at +anchor.z, Left side mirrored at -anchor.z
+        sideGroup.position.set(anchor.x, anchor.y, isLeft ? -anchor.z : anchor.z);
+        if (isLeft) {
+          sideGroup.scale.z = -1; // mirror
+        }
+
+        wingsDef.forEach(wing => {
+          const sweepGroup = new THREE.Group();
+          sweepGroup.rotation.y = wing.sweep;
+          sweepGroup.position.y = wing.lift;
+
+          ghostLayers.forEach(ghost => {
+            const flapGroup = new THREE.Group();
+            const mat = new THREE.MeshBasicMaterial({
+              map: wingTexture,
+              transparent: true,
+              opacity: ghost.opacity,
+              side: THREE.DoubleSide,
+              depthWrite: false,
+              color: 0xffffff,
+              blending: THREE.NormalBlending
+            });
+            const mesh = new THREE.Mesh(createWingGeometry(wing.span), mat);
+            mesh.frustumCulled = false;
+            flapGroup.add(mesh);
+            sweepGroup.add(flapGroup);
+
+            flapGroups.push({
+              group: flapGroup,
+              phase: wing.phase + ghost.phaseOffset
+            });
+          });
+
+          sideGroup.add(sweepGroup);
+        });
+
+        return sideGroup;
+      }
+
+      const rightSide = buildWingSide(false);
+      const leftSide = buildWingSide(true);
+      beeRoot.add(rightSide);
+      beeRoot.add(leftSide);
+    }
+
+    function processWingTexture(callback) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          const cvs = document.createElement('canvas');
+          cvs.width = 1024;
+          cvs.height = 576;
+          const ctx = cvs.getContext('2d');
+          ctx.drawImage(img, 0, 0, 1024, 576);
+          const imgData = ctx.getImageData(0, 0, 1024, 576);
+          const d = imgData.data;
+
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i + 1], b = d[i + 2];
+            const l = (r * 0.3 + g * 0.59 + b * 0.11) / 255;
+            const alpha = clamp((l - 0.035) * 4.2, 0, 1) * 255;
+            d[i] = Math.min(255, r * 1.5 + 30);
+            d[i + 1] = Math.min(255, g * 1.5 + 30);
+            d[i + 2] = Math.min(255, b * 1.5 + 40);
+            d[i + 3] = alpha;
+          }
+          ctx.putImageData(imgData, 0, 0);
+
+          const tex = new THREE.CanvasTexture(cvs);
+          tex.colorSpace = THREE.SRGBColorSpace;
+          tex.needsUpdate = true;
+          callback(tex);
+        } catch (e) {
+          console.warn("Could not process wing texture pixels:", e);
+          const fallbackTex = new THREE.TextureLoader().load(WING_TEX);
+          fallbackTex.colorSpace = THREE.SRGBColorSpace;
+          callback(fallbackTex);
+        }
+      };
+      img.onerror = () => {
+        console.warn("Failed to load WING_TEX");
+      };
+      img.src = WING_TEX;
+    }
+
+    if (renderer) {
+      const gltfLoader = new GLTFLoader();
+      gltfLoader.load(
+        BEE_GLB,
+        (gltf) => {
+          const model = gltf.scene;
+
+          model.traverse((child) => {
+            if (child.isMesh) {
+              child.frustumCulled = false;
+              if (child.material) {
+                child.material.envMapIntensity = 0.7;
+              }
+            }
+          });
+
+          holder.add(model);
+          model.rotation.set(0, Math.PI / 2, 0); // turns head from +Z to +X
+
+          const box0 = new THREE.Box3().setFromObject(holder);
+          const size0 = new THREE.Vector3();
+          box0.getSize(size0);
+          const maxDim = Math.max(size0.x, size0.y, size0.z);
+          if (maxDim > 0) {
+            model.scale.setScalar(1 / maxDim);
+          }
+
+          const box1 = new THREE.Box3().setFromObject(holder);
+          const center1 = new THREE.Vector3();
+          box1.getCenter(center1);
+          model.position.sub(center1);
+
+          const finalBox = new THREE.Box3().setFromObject(holder);
+          const anchor = {
+            x: finalBox.min.x + (finalBox.max.x - finalBox.min.x) * 0.66,
+            y: finalBox.max.y * 0.86,
+            z: (finalBox.max.z - finalBox.min.z) * 0.05
+          };
+
+          processWingTexture((wingTex) => {
+            buildWings(wingTex, anchor);
+            isModelReady = true;
+            clearTimeout(fallbackTimeout);
+            finishLoader(true);
+          });
+        },
+        undefined,
+        (err) => {
+          console.warn("Error loading BEE_GLB:", err);
+          finishLoader(false);
+        }
+      );
+    }
+
+    /* =====================================================================
+       5g. ANIMATION LOOP & MOUSE TRACKING
+       ===================================================================== */
+    const clock = new THREE.Clock();
+
+    const mouse = {
+      targetX: 0,
+      targetY: 0,
+      sx: 0,
+      sy: 0
+    };
+
+    window.addEventListener('pointermove', (e) => {
+      mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+    }, { passive: true });
+
+    // Initial state matching hero desktop
+    const cur = {
+      x: -0.03,
+      y: -0.12,
+      s: 1.00,
+      yaw: 150,
+      pitch: 6,
+      roll: -4
+    };
+
+    function onWindowResize() {
+      if (!renderer || !camera) return;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      updateParallax();
+      updateNavTheme();
+    }
+    window.addEventListener('resize', onWindowResize);
+
+    function tick() {
+      requestAnimationFrame(tick);
+
+      if (!renderer || !isModelReady) return;
+
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const t = clock.getElapsedTime();
+
+      const K = (window.innerWidth < 760) ? KEYFRAMES_MOBILE : KEYFRAMES_DESKTOP;
+      const p = getScrollProgress(K);
+      const target = targetAt(p, K);
+
+      // Smooth follow
+      const kFollow = prefersReducedMotion ? 1 : (1 - Math.exp(-dt * 3.2));
+      const kYaw = prefersReducedMotion ? 1 : (1 - Math.exp(-dt * 2.6));
+
+      const prevX = cur.x;
+      const prevY = cur.y;
+
+      cur.x += (target.x - cur.x) * kFollow;
+      cur.y += (target.y - cur.y) * kFollow;
+      cur.s += (target.s - cur.s) * kFollow;
+      cur.pitch += (target.pitch - cur.pitch) * kFollow;
+      cur.roll += (target.roll - cur.roll) * kFollow;
+      cur.yaw = lerpAngle(cur.yaw, target.yaw, kYaw);
+
+      const vx = (!prefersReducedMotion && dt > 0) ? (cur.x - prevX) / dt : 0;
+      const vy = (!prefersReducedMotion && dt > 0) ? (cur.y - prevY) / dt : 0;
+
+      // Mouse smoothing
+      if (!prefersReducedMotion) {
+        const km = 1 - Math.exp(-dt * 2.0);
+        mouse.sx += (mouse.targetX - mouse.sx) * km;
+        mouse.sy += (mouse.targetY - mouse.sy) * km;
+      } else {
+        mouse.sx = 0;
+        mouse.sy = 0;
+      }
+
+      const fovRad = (camera.fov * Math.PI) / 180;
+      const halfH = Math.tan(fovRad / 2) * camera.position.z;
+      const aspect = window.innerWidth / window.innerHeight;
+      const halfW = halfH * aspect;
+      const hover = prefersReducedMotion ? 0 : (Math.sin(t * 2.1) * 0.045 + Math.sin(t * 3.7) * 0.015);
+
+      flight.position.set(
+        cur.x * halfW + (prefersReducedMotion ? 0 : Math.sin(t * 1.3) * 0.04) + mouse.sx * 0.12,
+        cur.y * halfH + hover * halfH * 0.5 + mouse.sy * 0.08,
+        prefersReducedMotion ? 0 : (Math.sin(t * 0.9) * 0.15)
+      );
+
+      flight.scale.setScalar(halfH * 2 * 0.30 * cur.s);
+      flight.rotation.set(0, -((cur.yaw + mouse.sx * 12) * Math.PI / 180), 0);
+
+      const pitch = cur.pitch - clamp(vy * 22, -28, 28) + (prefersReducedMotion ? 0 : Math.sin(t * 2.1 + 1) * 3) + mouse.sy * 6;
+      const roll = cur.roll + clamp(vx * 18, -30, 30) + (prefersReducedMotion ? 0 : Math.sin(t * 1.7) * 4);
+      beeRoot.rotation.set(roll * Math.PI / 180, 0, pitch * Math.PI / 180, 'YZX');
+
+      // Wing beat
+      const moving = prefersReducedMotion ? 0 : target.moving;
+      const freq = 2 * Math.PI * (17 + moving * 5);
+      for (let i = 0; i < flapGroups.length; i++) {
+        const fg = flapGroups[i];
+        const a = Math.sin(t * freq + fg.phase);
+        fg.group.rotation.x = -0.25 + a * 0.95;
+        fg.group.rotation.y = a * 0.18;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    if (renderer) {
+      tick();
+    }
+  </script>
+</body>
+</html>
